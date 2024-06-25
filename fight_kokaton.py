@@ -147,11 +147,11 @@ class Score:
         self.color = (0, 0, 255)
         self.scr = 0
         self.img = self.fonto.render(f"スコア：{self.scr}", 0, self.color)
-        self.center = (100,WIDTH-50)
+        self.rct = self.img.get_rect()
+        self.rct.center = (100,HEIGHT-50)
     def update(self, screen: pg.Surface):
         self.img = self.fonto.render(f"スコア：{self.scr}", 0, self.color)
-        text_rect = self.img.get_rect()
-        screen.blit(self.img,text_rect)
+        screen.blit(self.img,self.rct)
 
 
 def main():
