@@ -29,6 +29,7 @@ class Bird:
     """
     ゲームキャラクター（こうかとん）に関するクラス
     """
+    self.dire=(+5.0)
     delta = {  # 押下キーと移動量の辞書
         pg.K_UP: (0, -5),
         pg.K_DOWN: (0, +5),
@@ -83,6 +84,9 @@ class Bird:
         if not (sum_mv[0] == 0 and sum_mv[1] == 0):
             self.img = __class__.imgs[tuple(sum_mv)]
         screen.blit(self.img, self.rct)
+
+        if sum_mv != [0,0]:
+
 
 
 class Beam:
