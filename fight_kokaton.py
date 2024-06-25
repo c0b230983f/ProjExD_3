@@ -154,6 +154,19 @@ class Score:
         screen.blit(self.img,text_rect)
 
 
+class Explosion:
+    def __init__(self, screen):
+        exps = [ pg.transform.rotozoom(pg.image.load("fig/explosion.png"), 0, 2.0) ,
+                 pg.transform.flip(pg.image, True, False) ]
+        self.rct.centery = (self.vx, self.vy)
+        life = 5
+    def update(self, life, screen: pg.Surface):
+        life -= 1        
+        if life > 0:
+            self.rct.move_ip(self.vx, self.vy)
+            screen.blit(self.img, self.rct)
+
+
 def main():
     pg.display.set_caption("たたかえ！こうかとん")
     screen = pg.display.set_mode((WIDTH, HEIGHT))    
@@ -165,6 +178,7 @@ def main():
     bombs = [Bomb((255, 0, 0), 10) for _ in range(NUM_OF_BOMBS)]
     clock = pg.time.Clock()
     tmr = 0
+    bakuha = []
     # scr = 0
     while True:
         for event in pg.event.get():
@@ -181,6 +195,7 @@ def main():
                 font = pg.font.Font(None,80)
                 txt = font.render("Game Over",True,(255,0,0))
                 screen.blit(txt,[WIDTH/2-150,HEIGHT/2])
+                explosion = Explosion()
                 pg.display.update()
                 time.sleep(5)
                 return
