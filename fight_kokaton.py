@@ -144,12 +144,13 @@ class Bomb:
 class Score:
     def __init__(self):
         self.fonto = pg.font.SysFont("hgp創英角ﾎﾟｯﾌﾟ体", 30)
-        color = (0, 0, 255)
-        scr = 0
-        self.img = self.fonto.render("スコア："+ scr, 0, color)
+        self.color = (0, 0, 255)
+        self.scr = 0
+        self.img = self.fonto.render(f"スコア：{self.scr}", 0, self.color)
         self.center = (100,WIDTH-50)
     def update(self, screen: pg.Surface):
-        text_rect = self.img.get_rect(self.center)
+        self.img = self.fonto.render(f"スコア：{self.scr}", 0, self.color)
+        text_rect = self.img.get_rect()
         screen.blit(self.img,text_rect)
 
 
@@ -158,12 +159,13 @@ def main():
     screen = pg.display.set_mode((WIDTH, HEIGHT))    
     bg_img = pg.image.load("fig/pg_bg.jpg")
     bird = Bird((300, 200))
+    score = Score()
     beam = None
     # bomb = Bomb((255, 0, 0), 10)
     bombs = [Bomb((255, 0, 0), 10) for _ in range(NUM_OF_BOMBS)]
     clock = pg.time.Clock()
     tmr = 0
-    scr = 0
+    # scr = 0
     while True:
         for event in pg.event.get():
             if event.type == pg.QUIT:
@@ -190,7 +192,9 @@ def main():
                     beam = None
                     bird.change_img(6, screen)
                     pg.display.update()
-                scr += 1
+                    score.scr += 1
+                    print(score.scr)
+        
         bombs = [bomb for bomb in bombs if bomb is not None]
 
         key_lst = pg.key.get_pressed()
@@ -199,6 +203,8 @@ def main():
             beam.update(screen)
         for bomb in bombs:
             bomb.update(screen)
+        print(score.scr)
+        score.update(screen)
         pg.display.update()
         tmr += 1
         clock.tick(50)
